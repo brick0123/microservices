@@ -1,5 +1,6 @@
-package com.example;
+package com.example.domain;
 
+import com.example.presentation.FraudCheckResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

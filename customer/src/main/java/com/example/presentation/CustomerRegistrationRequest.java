@@ -1,4 +1,4 @@
-package com.example;
+package com.example.presentation;
 
 public record CustomerRegistrationRequest(
     String firstName,
