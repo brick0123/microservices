@@ -1,21 +1,22 @@
 package com.example.domain;
 
+import com.example.config.RabbitMqMessageProducer;
 import com.example.presentation.CustomerRegistrationRequest;
 import com.example.presentation.FraudApiCaller;
-import com.example.presentation.NotificationApiCaller;
 import com.example.presentation.NotificationRequest;
-import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
 
 @Service
 @RequiredArgsConstructor
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
-    private final NotificationApiCaller notificationApiCaller;
     private final FraudApiCaller fraudApiCaller;
+    private final RabbitMqMessageProducer messageProducer;
 
     @Transactional
     public void register(CustomerRegistrationRequest command) {
@@ -35,17 +36,17 @@ public class CustomerService {
         }
 
         // send notification
-        sendNotification(customer);
-    }
+        final var notification = new NotificationRequest(
+            customer.getId(),
+            customer.getEmail(),
+            "Hello",
+            LocalDate.now()
+        );
 
-    private void sendNotification(Customer customer) {
-        notificationApiCaller.sendNotification(
-            new NotificationRequest(
-                customer.getId(),
-                customer.getEmail(),
-                "Hello",
-                LocalDate.now()
-            )
+        messageProducer.publish(
+            "internal.exchange",
+            "internal.notification.routing-key",
+            notification
         );
     }
 }

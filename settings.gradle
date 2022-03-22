@@ -4,4 +4,5 @@ include 'fraud'
 include 'eureka-server'
 include 'notification'
 include 'api-gateway'
+include 'core'
 

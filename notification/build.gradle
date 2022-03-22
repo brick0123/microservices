@@ -22,6 +22,8 @@ repositories {
 }
 
 dependencies {
+    implementation project(path: ':core', configuration: 'default')
+
     implementation "org.springframework.cloud:spring-cloud-sleuth-zipkin"
     implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
