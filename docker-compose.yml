@@ -1,8 +1,7 @@
 version: '3.7'
 services:
-  db:
+  mysql:
     container_name: mysql
-    command: --default-authentication-plugin=mysql_native_password
     image: mysql:8.0.28
     environment:
       MYSQL_USER: user
@@ -15,7 +14,7 @@ services:
       - "3306:3306"
     networks:
       - mysql
-    restart: unless-stopped
+
   adminer:
     image: adminer
     networks:
@@ -23,20 +22,100 @@ services:
     restart: always
     ports:
       - "8088:8080"
+
   zipkin:
     image: openzipkin/zipkin
     container_name: zipkin
     ports:
       - "9411:9411"
+    networks:
+      - spring
+
   rabbitmq:
     image: rabbitmq:3.9.11-management-alpine
     container_name: rabbitmq
     ports:
       - "5672:5672"
       - "15672:15672"
+    networks:
+      - spring
+
+  eureka-server:
+    image: tlfanfvk/eureka-server:latest
+    container_name: eureka-server
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    ports:
+      - "8761:8761"
+    networks:
+      - spring
+    depends_on:
+      - zipkin
+
+  api-gateway:
+    image: tlfanfvk/api-gateway:latest
+    container_name: api-gateway
+    ports:
+      - "8084:8084"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - spring
+    depends_on:
+      - zipkin
+      - eureka-server
+
+  customer:
+    image: tlfanfvk/customer:latest
+    container_name: customer
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    ports:
+      - "8081:8081"
+    networks:
+      - spring
+      - mysql
+    depends_on:
+      - zipkin
+      - eureka-server
+      - mysql
+      - rabbitmq
+
+  fraud:
+    image: tlfanfvk/fraud:latest
+    container_name: fraud
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    ports:
+      - "8082:8082"
+    networks:
+      - spring
+      - mysql
+    depends_on:
+      - zipkin
+      - eureka-server
+      - mysql
+      - rabbitmq
+
+  notification:
+    image: tlfanfvk/notification:latest
+    container_name: notification
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    ports:
+      - "8083:8083"
+    networks:
+      - spring
+      - mysql
+    depends_on:
+      - zipkin
+      - eureka-server
+      - mysql
+      - rabbitmq
 
 networks:
   mysql:
+  spring:
 
 volumes:
   mysql:

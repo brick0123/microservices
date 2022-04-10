@@ -21,3 +21,5 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+tasks.findByName('jib').enabled = false

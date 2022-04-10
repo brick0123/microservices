@@ -1,0 +1,29 @@
+plugins {
+    id 'com.google.cloud.tools.jib' version '3.2.0' apply false
+    id 'java'
+}
+
+subprojects {
+    apply plugin: 'com.google.cloud.tools.jib'
+
+    jar {
+        enabled = false
+    }
+
+    jib {
+        from {
+            image = "eclipse-temurin:17"
+        }
+
+        to {
+            image = "tlfanfvk/${project.name}:${project.version}"
+            tags = ["latest"]
+
+            auth {
+                username = "${USERNAME}"
+                password = "${PASSWORD}"
+            }
+        }
+    }
+
+}
