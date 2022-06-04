@@ -16,13 +16,8 @@ subprojects {
         }
 
         to {
-            image = "tlfanfvk/${project.name}:${project.version}"
+            image = "mssbrick/${project.name}"
             tags = ["latest"]
-
-            auth {
-                username = "${USERNAME}"
-                password = "${PASSWORD}"
-            }
         }
     }
 

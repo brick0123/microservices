@@ -26,6 +26,8 @@ services:
   zipkin:
     image: openzipkin/zipkin
     container_name: zipkin
+    labels:
+      - "microservice"
     ports:
       - "9411:9411"
     networks:
@@ -34,6 +36,8 @@ services:
   rabbitmq:
     image: rabbitmq:3.9.11-management-alpine
     container_name: rabbitmq
+    labels:
+      - "microservice"
     ports:
       - "5672:5672"
       - "15672:15672"
@@ -43,6 +47,8 @@ services:
   eureka-server:
     image: tlfanfvk/eureka-server:latest
     container_name: eureka-server
+    labels:
+      - "microservice"
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     ports:
@@ -55,6 +61,8 @@ services:
   api-gateway:
     image: tlfanfvk/api-gateway:latest
     container_name: api-gateway
+    labels:
+      - "microservice"
     ports:
       - "8084:8084"
     environment:
@@ -68,6 +76,8 @@ services:
   customer:
     image: tlfanfvk/customer:latest
     container_name: customer
+    labels:
+      - "microservice"
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     ports:
@@ -84,6 +94,8 @@ services:
   fraud:
     image: tlfanfvk/fraud:latest
     container_name: fraud
+    labels:
+      - "microservice"
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     ports:
@@ -100,6 +112,8 @@ services:
   notification:
     image: tlfanfvk/notification:latest
     container_name: notification
+    labels:
+      - "microservice"
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     ports:
