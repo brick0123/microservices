@@ -45,7 +45,7 @@ services:
       - spring
 
   eureka-server:
-    image: tlfanfvk/eureka-server:latest
+    image: mssbrick/eureka-server:latest
     container_name: eureka-server
     labels:
       - "microservice"
@@ -59,7 +59,7 @@ services:
       - zipkin
 
   api-gateway:
-    image: tlfanfvk/api-gateway:latest
+    image: mssbrick/api-gateway:latest
     container_name: api-gateway
     labels:
       - "microservice"
@@ -74,7 +74,7 @@ services:
       - eureka-server
 
   customer:
-    image: tlfanfvk/customer:latest
+    image: mssbrick/customer:latest
     container_name: customer
     labels:
       - "microservice"
@@ -92,7 +92,7 @@ services:
       - rabbitmq
 
   fraud:
-    image: tlfanfvk/fraud:latest
+    image: mssbrick/fraud:latest
     container_name: fraud
     labels:
       - "microservice"
@@ -110,7 +110,7 @@ services:
       - rabbitmq
 
   notification:
-    image: tlfanfvk/notification:latest
+    image: mssbrick/notification:latest
     container_name: notification
     labels:
       - "microservice"
