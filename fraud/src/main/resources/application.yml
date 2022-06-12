@@ -1,11 +1,13 @@
 server:
-  port: 8081
+  port: 8082
 
 spring:
+  profiles:
+    active: default
   application:
-    name: customer
+    name: fraud
   datasource:
-    url: jdbc:mysql://localhost:3306/customer
+    url: jdbc:mysql://localhost:3306/fraud
     username: user
     password: 1234
   jpa:
@@ -17,8 +19,6 @@ spring:
     hibernate:
       ddl-auto: create-drop
     show-sql: true
-  rabbitmq:
-    addresses: localhost:5672
 
 eureka:
   client:
@@ -26,3 +26,4 @@ eureka:
       defaultZone: http://localhost:8761/eureka
     fetch-registry: true
     register-with-eureka: true
+    enabled: false
