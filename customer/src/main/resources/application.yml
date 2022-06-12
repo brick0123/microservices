@@ -2,8 +2,8 @@ server:
   port: 8081
 
 spring:
-  profiles:
-    active: default
+#  profiles:
+#    active: default
   application:
     name: customer
   datasource:
@@ -29,3 +29,6 @@ eureka:
     fetch-registry: true
     register-with-eureka: true
     enabled: false
+logging:
+  level:
+    org.springframework.cloud.sleuth.zipkin: debug
